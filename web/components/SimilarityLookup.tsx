@@ -4,7 +4,8 @@ import { useRef, useState } from "react";
 import type { Vocab } from "@/lib/data";
 import { SimilarityResultCard } from "./SimilarityResultCard";
 
-const TOP_N_RESULTS = 5;
+const TOP_N_RESULTS = 10; // shown on the page
+const TOP_N_SCREENSHOT = 5; // baked into the downloadable image
 const DISTINCTIVE_LIKES = 20; // top-IDF likes of input user used as seed
 const TOP_CANDIDATES = 50; // candidates we fully cosine-rank
 const FETCH_CONCURRENCY = 8; // parallel HF API calls
@@ -392,11 +393,27 @@ export function SimilarityLookup() {
             {phase.matches.length > 0 ? (
               <>
                 <SimilarityResultCard
-                  ref={cardRef}
                   inputUsername={phase.username}
                   matches={phase.matches}
                   fallback={phase.fallback}
                 />
+                <div
+                  aria-hidden
+                  style={{
+                    position: "absolute",
+                    left: "-10000px",
+                    top: 0,
+                    width: "640px",
+                    pointerEvents: "none",
+                  }}
+                >
+                  <SimilarityResultCard
+                    ref={cardRef}
+                    inputUsername={phase.username}
+                    matches={phase.matches.slice(0, TOP_N_SCREENSHOT)}
+                    fallback={phase.fallback}
+                  />
+                </div>
                 <p className="text-xs text-muted">
                   Computed from {phase.vocabHits} of @{phase.username}&apos;s{" "}
                   {phase.userLikes} model-likes (the rest aren&apos;t in our

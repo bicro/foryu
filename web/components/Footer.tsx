@@ -18,7 +18,7 @@ export function Footer() {
         </p>
         <p className="font-mono text-xs">
           <a
-            href="https://github.com/bicro/taste-graph"
+            href="https://github.com/bicro/foryu"
             target="_blank"
             rel="noopener noreferrer"
             className="underline decoration-rule underline-offset-4 hover:text-accent"
